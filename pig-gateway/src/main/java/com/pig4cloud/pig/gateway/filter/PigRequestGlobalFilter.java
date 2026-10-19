@@ -74,6 +74,9 @@ public class PigRequestGlobalFilter implements GlobalFilter, Ordered {
 		ServerHttpRequest newRequest = request.mutate().path(newPath).build();
 		exchange.getAttributes().put(GATEWAY_REQUEST_URL_ATTR, newRequest.getURI());
 
+		// 【阶段1学习改动】给所有经过网关的响应加一个标识头，验证 filter 生效
+		exchange.getResponse().getHeaders().add("X-Powered-By", "pig-learn-stage1");
+
 		return chain.filter(exchange.mutate().request(newRequest.mutate().build()).build());
 	}
 
